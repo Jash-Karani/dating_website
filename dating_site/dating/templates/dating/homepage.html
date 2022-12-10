@@ -1,0 +1,25 @@
+{% load socialaccount %}
+<html>
+
+<head>
+    <title>Google Registration</title>
+</head>
+
+<body>
+    {% if user.is_authenticated %}
+        <nav>
+            <a href="{% url 'account_logout' %}">Logout</a>    
+            <a href="">Profile</a>
+        </nav>
+        <h1>Welcome to the dating site</h1>
+        <p>Welcome, {{ user.username }} !</p>    
+    {% else %}
+        <h1>Login to use the dating site</h1>
+        <a href="">Moderator login</a>
+        <!-- <a href="{%url 'account_login'%}">User login with Google</a> -->
+        <a href="{% provider_login_url 'google' %}">User login with Google</a>
+    {% endif %}
+
+</body>
+
+</html>

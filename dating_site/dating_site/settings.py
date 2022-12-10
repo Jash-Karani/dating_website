@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +46,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount', 
     'allauth.socialaccount.providers.google', #this is for google oauth
 
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'dating.apps.DatingConfig',
 ]
 
 MIDDLEWARE = [
@@ -142,6 +144,7 @@ SITE_ID = 2
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 LOGIN_REDIRECT_URL = '/'
+
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET= True
 ACCOUNT_UNIQUE_EMAIL = True
@@ -157,3 +160,5 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
