@@ -1,0 +1,22 @@
+
+<div>
+    <img  src="{{ user.profile.image}}">
+</div>
+<div>
+    <h2>{{ user.username }}</h2>
+    <p>{{ user.email }}</p>
+</div>
+
+<!-- FORM HERE -->
+<form method="POST">
+    {%csrf_token%}
+    <fieldset>
+        <legend>Profile info</legend>
+        {{ user_form }}
+        {{ profile_form }}
+    </fieldset>
+    <div >
+        <button type="submit">Update Profile !!!</button>
+    </div>
+</form>
+
