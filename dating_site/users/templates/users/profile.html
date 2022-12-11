@@ -1,6 +1,9 @@
-
+{% extends "dating/homepage-base.html" %}
+{% block content %}
+<a href="{% url 'dating-home' %}">Home</a>
 <div>
-    <img  src="{{ user.profile.image}}">
+    <p>{{ user.profile.image.url }}</p>
+    <img  src="{{ user.profile.image.url }}">
 </div>
 <div>
     <h2>{{ user.username }}</h2>
@@ -8,7 +11,7 @@
 </div>
 
 <!-- FORM HERE -->
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {%csrf_token%}
     <fieldset>
         <legend>Profile info</legend>
@@ -19,4 +22,5 @@
         <button type="submit">Update Profile !!!</button>
     </div>
 </form>
+{%endblock content%}
 

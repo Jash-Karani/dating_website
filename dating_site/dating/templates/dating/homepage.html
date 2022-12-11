@@ -1,26 +1,7 @@
-{% load socialaccount %}
-<html>
+{% extends "dating/homepage-base.html" %}
+{% block content %}
+    <nav>           
+        <a href="{{user.username}}/profile">Profile</a>
+    </nav>
+{%endblock content%}
 
-<head>
-    <title>Google Registration</title>
-</head>
-<body>
-    {% if user.is_authenticated %}
-        <nav>
-            
-            <a href="{% url 'account_logout' %}">Logout</a>    
-            <a href="{{user.username}}/profile">Profile</a>
-        </nav>
-        <h1>Welcome to the dating site</h1>
-        <p>Welcome, {{ user.username }} !</p>  
-        <img src="{{user.socialaccount_set.all.0.get_avatar_url}}" alt="">
-    {% else %}
-        <h1>Login to use the dating site</h1>
-        <a href="">Moderator login</a>
-        <!-- <a href="{%url 'account_login'%}">User login with Google</a> -->
-        <a href="{% provider_login_url 'google' %}">User login with Google</a>
-    {% endif %}
-
-</body>
-
-</html>
