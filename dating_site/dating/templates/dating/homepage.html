@@ -1,7 +1,23 @@
 {% extends "dating/homepage-base.html" %}
-{% block content %}
-    <nav>           
-        <a href="{{user.username}}/profile">Profile</a>
-    </nav>
-{%endblock content%}
+{% block content %}         
+    {% if user.is_authenticated %}
+        <nav>
+            <a href="{{user.username}}/profile">Profile</a>
+        </nav>
+    {%endif%}
 
+    {% for user in users %}
+        <article>
+          <img src="{{ user.profile.image.url }}">
+          <div>
+            <div >
+              <a href="">{{ user.username }}</a>
+            </div>
+            <p>gender:{{user.profile.gender}}</p>
+            <p>age:{{user.profile.age}}</p>
+            <p>status:{{user.profile.status}}</p>
+            <p>email:{{user.email}}</p>
+          </div>
+        </article>
+    {% endfor %}
+{%endblock content%}
