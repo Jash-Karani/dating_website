@@ -4,20 +4,35 @@
         <nav>
             <a href="{{user.username}}/profile">Profile</a>
         </nav>
+        <hr>
+        <h3>These are available people whom you can connect with</h3>
+        {% for u in users %}
+            {% if u.username != user.username %}
+                <article>
+                    <hr>
+                    <img src="{{ u.profile.image.url }}">
+                    <div>
+                        <div >
+                            <a href="">{{ u.username }}</a>
+                        </div>
+                        <p>gender:{{u.profile.gender}}</p>
+                        <p>age:{{u.profile.age}}</p>
+                        <p>status:{{u.profile.status}}</p>
+                        <p>email:{{u.email}}</p>
+                        <p>hobbies:{{u.profile.hobbies}}</p>
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {%csrf_token%}
+                        <fieldset>
+                            <input type="radio" id="html" name="chat_request" value="{{u.username}}">
+                            <label for="html">Chat Request</label>
+                            <button type="submit">submit</button>
+                        </fieldset>
+                    </form>
+                    
+                    <hr>
+                </article>
+            {%endif%}
+        {% endfor %}
     {%endif%}
-
-    {% for user in users %}
-        <article>
-          <img src="{{ user.profile.image.url }}">
-          <div>
-            <div >
-              <a href="">{{ user.username }}</a>
-            </div>
-            <p>gender:{{user.profile.gender}}</p>
-            <p>age:{{user.profile.age}}</p>
-            <p>status:{{user.profile.status}}</p>
-            <p>email:{{user.email}}</p>
-          </div>
-        </article>
-    {% endfor %}
-{%endblock content%}
+    {%endblock content%}
