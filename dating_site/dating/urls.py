@@ -7,7 +7,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('', UsersList.as_view(),name='dating-home'),
-
 ]
 
 if settings.DEBUG:

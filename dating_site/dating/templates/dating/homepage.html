@@ -3,14 +3,13 @@
     {% if user.is_authenticated %}
         <nav>
             <a href="{{user.username}}/profile">Profile</a>
+            <a href="{{user.username}}/chat-requests">Check chat requests</a>
         </nav>
         <hr>
         <h3>These are available people whom you can connect with</h3>
         {% for u in users %}
             {% if u.username != user.username %}
                 {% if u.username not in user.chatrequests.chat_request %}
-
-                    <p>{{user.chatrequests.chat_request}}</p>
                     <article>
                         <hr>
                         <img src="{{ u.profile.image.url }}">
@@ -32,12 +31,10 @@
                                 <button type="submit">submit</button>
                             </fieldset>
                         </form>
-                        
                         <hr>
                     </article>
-
                 {%endif%}
             {%endif%}
         {% endfor %}
     {%endif%}
-    {%endblock content%}
+{%endblock content%}

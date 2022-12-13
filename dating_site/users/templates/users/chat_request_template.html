@@ -1,0 +1,38 @@
+{% extends "dating/homepage-base.html" %}
+{% block content %}         
+    {% if user.is_authenticated %}
+        <nav>
+            <a href="{% url 'dating-home' %}">Home</a>
+            <a href="{% url 'user-profile' user.username %}">Profile</a>
+        </nav>
+        <hr>
+        <h3>These are available people requested to chat with you.. you can either accept or deny</h3>
+        {% for u in object.users %}
+            {% if u.username in user.chatrequests.chat_request %}
+            <article>
+                <hr>
+                    <h3>{{u.username}}</h3>
+                    <img src="{{ u.profile.image.url }}">
+                    <div>
+                        <p>gender:{{u.profile.gender}}</p>
+                        <p>age:{{u.profile.age}}</p>
+                        <p>status:{{u.profile.status}}</p>
+                        <p>email:{{u.email}}</p>
+                        <p>hobbies:{{u.profile.hobbies}}</p>
+                    </div>
+                    <form method="POST">
+                        {%csrf_token%}
+                        <fieldset>
+                            <input type="radio" id="html" name="chat_request_accept" value="{{u.username}}">
+                            <label for="html">Accept</label>
+                            <input type="radio" id="html" name="chat_request_reject" value="{{u.username}}">
+                            <label for="html">Reject</label>
+                            <button type="submit">submit</button>
+                        </fieldset>
+                    </form>
+                    <hr>
+                </article>
+            {%endif%}
+        {% endfor %}
+    {%endif%}
+{%endblock content%}

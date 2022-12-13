@@ -19,11 +19,13 @@ from django.urls import path, include
 from users import views as users_views
 from django.conf import settings
 from django.conf.urls.static import static
+from users.views import ChatRequestsView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')), 
     path('', include('dating.urls')), 
     path('<username>/profile/', users_views.profile,name='user-profile'), 
+    path('<username>/chat-requests/', ChatRequestsView.as_view(),name='user-chat'), 
 ]
 
 if settings.DEBUG:

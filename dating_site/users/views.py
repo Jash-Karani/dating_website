@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
 from .models import Profile
+from django.contrib.auth.models import User
+from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.shortcuts import render,redirect
 # Create your views here.
 
@@ -13,9 +15,7 @@ def profile(request,**username):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-
             return redirect('/'+username['username']+'/profile/')
-
     else:
         try:
             profile=request.user.profile
@@ -29,3 +29,32 @@ def profile(request,**username):
             "profile_form":profile_form
         }
     return render(request, 'users/profile.html',context)
+
+class ChatRequestsView(ListView):
+    model=User
+    template_name = 'users/chat_request_template.html'
+    context_object_name='object'
+
+    def get_queryset(self):
+        user_array=[]
+        counter=1
+        for u in User.objects.all():
+            if u.username in self.request.user.chatrequests.chat_request:
+                user_array.append(u)
+        return {'users':user_array,'user_logged_in':self.request.user}
+    def post(self, request):
+        user_requested = request.POST['chat_request']
+        return redirect('/')
+    # def post(self, request):
+    #     user_requested = request.POST['chat_request']
+        
+    #     try:
+    #         json_file=request.user.chatrequests.chat_request
+    #     except:
+    #         chat_request_var=Chatrequests.objects.create(user=request.user)
+    #         json_file=request.user.chatrequests.chat_request
+    #     json_file.append(user_requested)
+    #     a=Chatrequests.objects.get(user=request.user)
+    #     a.chat_request=json_file
+    #     a.save()
+    #     return redirect('/')
