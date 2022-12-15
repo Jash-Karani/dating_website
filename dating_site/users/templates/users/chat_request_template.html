@@ -23,11 +23,8 @@
                     <form method="POST">
                         {%csrf_token%}
                         <fieldset>
-                            <input type="radio" id="html" name="chat_request_accept" value="{{u.username}}">
-                            <label for="html">Accept</label>
-                            <input type="radio" id="html" name="chat_request_reject" value="{{u.username}}">
-                            <label for="html">Reject</label>
-                            <button type="submit">submit</button>
+                            <button type="submit" name="user_decision" value="accepted">Accept</button>
+                            <button type="submit" name="user_decision" value="rejected">Reject</button>
                         </fieldset>
                     </form>
                     <hr>

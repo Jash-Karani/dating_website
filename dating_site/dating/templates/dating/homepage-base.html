@@ -15,7 +15,7 @@
         </nav>
     {% else %}
         <h1>Login to use the dating site</h1>
-        <a href="">Moderator login</a>
+        <a href="{%url 'moderator-login'%}">Moderator login</a>
         <!-- <a href="{%url 'account_login'%}">User login with Google</a> -->
         <a href="{% provider_login_url 'google' %}">User login with Google</a>
     {% endif %}

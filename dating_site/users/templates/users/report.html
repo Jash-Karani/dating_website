@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Reporting {{user.username}}</h2>
+    <form method="POST">
+        {%csrf_token%}
+        <fieldset>
+            <label for="r">Report Reasons</label>
+            <textarea id="r" name="report" rows="5" cols="33"></textarea>
+  
+        </fieldset>
+        <div>
+            <button type="submit">report</button>
+        </div>
+    </form>
+</body>
+</html>

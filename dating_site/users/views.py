@@ -42,8 +42,9 @@ class ChatRequestsView(ListView):
             if u.username in self.request.user.chatrequests.chat_request:
                 user_array.append(u)
         return {'users':user_array,'user_logged_in':self.request.user}
-    def post(self, request):
-        user_requested = request.POST['chat_request']
+    def post(self, request,username):
+        user_decision = request.POST['user_decision']
+        print(user_decision)
         return redirect('/')
     # def post(self, request):
     #     user_requested = request.POST['chat_request']

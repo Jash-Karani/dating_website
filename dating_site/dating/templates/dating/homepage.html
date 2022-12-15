@@ -9,12 +9,12 @@
         <h3>These are available people whom you can connect with</h3>
         {% for u in users %}
             {% if u.username != user.username %}
-                {% if u.username not in user.chatrequests.chat_request %}
+                {% if u.username not in user.chatrequests.chat_requested %}
                     <article>
                         <hr>
                         <img src="{{ u.profile.image.url }}">
                         <div>
-                            <div >
+                            <div>
                                 <a href="">{{ u.username }}</a>
                             </div>
                             <p>gender:{{u.profile.gender}}</p>
@@ -22,11 +22,12 @@
                             <p>status:{{u.profile.status}}</p>
                             <p>email:{{u.email}}</p>
                             <p>hobbies:{{u.profile.hobbies}}</p>
+                            <a href="{%url 'user-report' u.username%}">Report</a>
                         </div>
                         <form method="POST">
                             {%csrf_token%}
                             <fieldset>
-                                <input type="radio" id="html" name="chat_request" value="{{u.username}}">
+                                <input type="radio" id="html" name="chat_request" value="{{u}}">
                                 <label for="html">Chat Request</label>
                                 <button type="submit">submit</button>
                             </fieldset>
