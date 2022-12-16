@@ -8,7 +8,7 @@
         <hr>
         <h3>These are available people requested to chat with you.. you can either accept or deny</h3>
         {% for u in object.users %}
-            {% if u.username in user.chatrequests.chat_request %}
+            {% if u.username in user.chatrequests.chat_request and u.username not in user.chatrequests.match and u.username not in user.chatrequests.ban %}
             <article>
                 <hr>
                     <h3>{{u.username}}</h3>
@@ -23,8 +23,8 @@
                     <form method="POST">
                         {%csrf_token%}
                         <fieldset>
-                            <button type="submit" name="user_decision" value="accepted">Accept</button>
-                            <button type="submit" name="user_decision" value="rejected">Reject</button>
+                            <button type="submit" name="user_decision" value="{{u.username}}accept">Accept</button>
+                            <button type="submit" name="user_decision" value="{{u.username}}reject">Reject</button>
                         </fieldset>
                     </form>
                     <hr>

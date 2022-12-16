@@ -5,6 +5,7 @@ from .models import Profile
 from django.contrib.auth.models import User
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.shortcuts import render,redirect
+from dating.models import Chatrequests,Chats
 # Create your views here.
 
 @login_required
@@ -43,8 +44,27 @@ class ChatRequestsView(ListView):
                 user_array.append(u)
         return {'users':user_array,'user_logged_in':self.request.user}
     def post(self, request,username):
+
         user_decision = request.POST['user_decision']
-        print(user_decision)
+        user_who_requested=User.objects.all().filter(username=user_decision[:-6]).first()
+        user_who_decided=User.objects.all().filter(username=request.user.username).first()
+        if 'accept' in user_decision: 
+            json_file=user_who_decided.chatrequests.match
+            json_file.append(user_who_requested.username)
+            a=Chatrequests.objects.all().filter(user=user_who_decided).first()
+            a.match=json_file
+            a.save()
+            Chats.objects.create(current_chats={user_who_decided.username:user_who_requested.username})
+
+        
+        elif 'reject' in user_decision: 
+            json_file=user_who_decided.chatrequests.ban
+            json_file.append(user_who_requested.username)
+            a=Chatrequests.objects.all().filter(user=user_who_decided).first()
+            a.ban=json_file
+            a.save()
+        
+
         return redirect('/')
     # def post(self, request):
     #     user_requested = request.POST['chat_request']
