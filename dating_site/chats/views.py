@@ -17,14 +17,32 @@ class Chathome(ListView):
 def chat_with_user(request,**username_2):
     user_2 = User.objects.all().filter(username=username_2['username_2']).first()
     user_1 = User.objects.all().filter(username=request.user.username).first()
-    # if request.method=='POST':
-    #     report_reason=request.POST['report']
-    #     a=Reports(report={request.user.username:[user_getting_reported.username,report_reason]})
-    #     a.save()
-    #     return redirect('dating-home')
+    if request.method=='POST':
+        message=request.POST['message']
+        a=Chatrequests.objects.get(user=user_1)
+        json_file=user_1.chatrequests.chats[user_2.username][2]['chat']
+        json_file.append([user_1.username,message])
+        a.chats[user_2.username][2]['chat']=json_file
+        a.save()
+
+        b=Chatrequests.objects.get(user=user_2)
+        json_file2=user_2.chatrequests.chats[user_1.username][2]['chat']
+        json_file2.append([user_1.username,message])
+        b.chats[user_1.username][2]['chat']=json_file2
+        
+        json_file3=user_2.chatrequests.chats[user_1.username][3]['messages_left']
+        json_file3.append([user_1.username,message])
+        b.chats[user_1.username][3]['messages_left']=json_file3
+
+        b.save()
+        return redirect(request.path_info)
     context={
             "user_1":user_1,
             "user_2":user_2,
+            "chat":user_1.chatrequests.chats[user_2.username][2]['chat'],
+            "user_list":[user_1.username,user_2.username],
+            "user1_check":[user_1.username],
+            "user2_check":[user_2.username],
 
         }
     return render(request, 'chats/chat_with_user.html',context)

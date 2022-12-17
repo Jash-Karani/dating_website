@@ -16,43 +16,61 @@
         <div class="container py-5">
           <div class="row">      
               <ul class="list-unstyled">
-                <li class="d-flex justify-content-between mb-4">
-                  <div class="card w-100">
-                    <div class="card-header d-flex justify-content-between p-3">
-                      <p class="fw-bold mb-0">Lara Croft</p>
-                    </div>
-                    <div class="card-body">
-                      <p class="mb-0">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                        laudantium.
-                      </p>
-                    </div>
-                  </div>
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp" alt="avatar"
-                    class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
-                </li>
-                <li class="d-flex justify-content-between mb-4">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
-                    class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
-                  <div class="card">
-                    <div class="card-header d-flex justify-content-between p-3">
-                      <p class="fw-bold mb-0">Brad Pitt</p>
-                    </div>
-                    <div class="card-body">
-                      <p class="mb-0">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.
-                      </p>
-                    </div>
-                  </div>
-                </li>
+                {%for message in chat%}
+                    {%for i in message %}
+                        {%if i in user1_check%}
+                            <li class="d-flex justify-content-between mb-4">
+                                <div class="card w-100">
+                                    <div class="card-header d-flex justify-content-between p-3">
+                                        <p class="fw-bold mb-0">{{user_1.username}}</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-0">
+                                            {%for i in message %}
+                                                {%if i not in user_list%}
+                                                    {{i}}
+                                                {%endif%}
+                                            {%endfor%}
+                                        </p>
+                                    </div>
+                                </div>
+                                <img src="{{user_1.profile.image.url}}" alt="avatar"
+                                class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+                            </li>
+                        {%elif i in user2_check%}
+                            <li class="d-flex justify-content-between mb-4">
+                                <img src="{{user_1.profile.image.url}}" alt="avatar"
+                                class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between p-3">
+                                        <p class="fw-bold mb-0">{{user_2.username}}</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-0">
+                                            {%for i in message %}
+                                                {%if i not in user_list%}
+                                                    {{i}}
+                                                {%endif%}
+                                            {%endfor%}
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        {%endif%}
+                    {%endfor%}
+                {%endfor%}
                 <li class="bg-white mb-3">
-                  <div class="form-outline">
-                    <textarea class="form-control" id="textAreaExample2" name="message" rows="4"></textarea>
-                    <label class="form-label" for="textAreaExample2">Message</label>
-                  </div>
+                    <form method="POST">
+                        {%csrf_token%}
+                        <fieldset>
+                            <div class="form-outline">
+                                <textarea class="form-control" id="textAreaExample2" name="message" rows="4"></textarea>
+                                <label class="form-label" for="textAreaExample2">Message</label>
+                                <button type="submit" class="btn btn-info btn-rounded float-end">Send</button>
+                            </div>
+                        </fieldset>
+                    </form>
                 </li>
-                <button type="button" class="btn btn-info btn-rounded float-end">Send</button>
               </ul>
             </div>
           </div>
