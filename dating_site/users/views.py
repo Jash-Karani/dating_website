@@ -51,10 +51,23 @@ class ChatRequestsView(ListView):
         if 'accept' in user_decision: 
             json_file=user_who_decided.chatrequests.match
             json_file.append(user_who_requested.username)
+            json_file2=user_who_decided.chatrequests.chats
+            json_file2.append({user_who_requested.username:[]})
+            json_file2.append({user_who_decided.username:[]})
             a=Chatrequests.objects.all().filter(user=user_who_decided).first()
             a.match=json_file
+            a.chats=json_file2
             a.save()
             Chats.objects.create(current_chats={user_who_decided.username:user_who_requested.username})
+            json_file=user_who_requested.chatrequests.match
+            json_file.append(user_who_decided.username)
+            json_file2=user_who_requested.chatrequests.chats
+            json_file2.append({user_who_decided.username:[]})
+            json_file2.append({user_who_requested.username:[]})
+            b=Chatrequests.objects.all().filter(user=user_who_requested).first()
+            b.match=json_file
+            b.chats=json_file2
+            b.save()
 
         
         elif 'reject' in user_decision: 

@@ -14,6 +14,7 @@ class Chatrequests(models.Model):
     chat_requested = JSONField(default=list)
     match = JSONField(default=list)
     ban = JSONField(default=list)
+    chats = JSONField(default=list)
     
     
     def __str__(self):
@@ -24,3 +25,6 @@ class Chats(models.Model):
     current_chats = JSONField(default =dict)
     def __str__(self):
         return f'{self.current_chats}'
+
+
+

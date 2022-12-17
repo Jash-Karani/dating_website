@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'moderator.apps.ModeratorConfig',
     'dating.apps.DatingConfig',
+    'chats.apps.ChatsConfig',
+
 ]
 
 MIDDLEWARE = [
