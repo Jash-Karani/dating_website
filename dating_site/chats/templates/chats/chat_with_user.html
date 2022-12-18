@@ -11,6 +11,11 @@
     <title>Document</title>
   </head>
   <body>
+    <nav>
+        <a href="{% url 'account_logout' %}">Logout</a> 
+        <a href="{% url 'dating-home' %}">Home</a>
+        <a href="{%url 'chat-home'%}">Go to chat home</a>
+    </nav>
     <h1>Chat with {{user_2.username}}</h1>
     <section style="background-color: #eee;">
         <div class="container py-5">
