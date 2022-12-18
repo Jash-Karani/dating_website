@@ -19,13 +19,19 @@
     </nav>
     <h1>PILANI DATING SITE</h1>
     <h2>You can see the people you are chatting with here</h2>
-    {% for u in users %}
+    {{object.users}}
+    {% for u in object.users %}
         {% if u.username in user.chatrequests.match %}
             <article>
                 <hr>
                 <div>
                     <a href="{%url 'chat-with-user' u.username %}">{{ u.username }}</a>
-                    <p>Number of unread messages= {{}}</p>
+
+                    {% for i in object.message_left %}
+                        {%if i.0 == u.username%}
+                            <p>Number of unread messages= {{i.1}}</p>
+                        {%endif%}
+                    {%endfor%}
                 </div>
                 <hr>
             </article>

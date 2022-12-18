@@ -12,9 +12,16 @@ from django.http import HttpResponse
 class Chathome(ListView):
     model=User
     template_name = 'chats/chat_home.html'
-    context_object_name='users'
+    context_object_name='object'
 
+    def get_queryset(self):
+        messages_left_list=[]
+        for u in User.objects.all():
+            if u.username == self.request.user.username:
+                for key,value in u.chatrequests.chats.items():
+                    messages_left_list.append([key,value[3]['messages_left']])
 
+        return {'users':User.objects.all(),'message_left':messages_left_list}
 
 
 def chat_with_user(request,**username_2):

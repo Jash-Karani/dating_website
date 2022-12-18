@@ -16,7 +16,6 @@ class Chatrequests(models.Model):
     ban = JSONField(default=list)
     chats = JSONField(default=dict)
     
-    
     def __str__(self):
         return f'{self.user}:{self.chat_request}'
 class Reports(models.Model):
