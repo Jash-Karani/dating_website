@@ -7,6 +7,8 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from .models import Reports
 
+from thefuzz import process, fuzz
+
 class  UsersList(ListView):
     model=User
     template_name = 'dating/homepage.html'
@@ -63,3 +65,36 @@ def user_report(request,**username):
             "user":User.objects.all().filter(username= username['username']).first(),
         }
     return render(request, 'users/report.html',context)
+class  Findusers(ListView):
+    model=User
+    template_name = 'dating/find_users.html'
+    context_object_name='users'
+
+
+    # def get_queryset(self):
+    #     user_list=[]
+    #     for u in User.objects.all():
+    #         user_list.append(u.username)
+
+    #     process.extract(query, choices)
+
+    #     return {'users':User.objects.all(),'message_left':messages_left_list}
+    
+    def post(self, request):
+        user_search = request.POST['search']
+
+        user_list=[]
+        for u in User.objects.all():
+            if(u.username!=request.user.username):
+                user_list.append(u.username)
+
+        users_found=process.extract(user_search, user_list,scorer=fuzz.partial_token_set_ratio)
+        filtered_list=[]
+        print(len(users_found))
+        print((users_found)[1][1])
+        for i in range(len(users_found)):
+            if(users_found[i][1]>=75):
+                print(filtered_list)
+                filtered_list.append(users_found[i])
+        return render(request, 'dating/find_users.html',{'users_found':filtered_list})
+
