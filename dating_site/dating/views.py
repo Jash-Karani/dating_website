@@ -54,6 +54,39 @@ class  UsersList(ListView):
             return render(request, self.template_name,{'users':User.objects.all()})
 
 
+def profile_check(request,**username):
+
+    if request.method=='POST':
+        user_requested = User.objects.all().filter(username=request.POST['chat_request']).first()
+        try:
+            json_file=user_requested.chatrequests.chat_request
+        except:
+            d=Chatrequests.objects.create(user=user_requested)
+            d.save()
+            json_file=user_requested.chatrequests.chat_request
+        json_file.append(request.user.username)
+        a=Chatrequests.objects.get(user=user_requested)
+        a.chat_request=json_file
+        a.save()
+        try:
+            json_file2=request.user.chatrequests.chat_requested
+        except:
+            c=Chatrequests.objects.create(user=request.user)
+            c.save()
+            json_file2=request.user.chatrequests.chat_requested
+        json_file2.append(user_requested.username)
+        b=Chatrequests.objects.get(user=request.user)
+        b.chat_requested=json_file2
+        b.save()
+        return redirect('/')
+        
+    context={
+            "u":User.objects.all().filter(username= username['username']).first(),
+        }
+    return render(request, 'dating/user_profile_check.html',context)
+
+
+
 def user_report(request,**username):
     user_getting_reported = User.objects.all().get(username=username['username'])
     if request.method=='POST':
@@ -69,16 +102,6 @@ class  Findusers(ListView):
     model=User
     template_name = 'dating/find_users.html'
     context_object_name='users'
-
-
-    # def get_queryset(self):
-    #     user_list=[]
-    #     for u in User.objects.all():
-    #         user_list.append(u.username)
-
-    #     process.extract(query, choices)
-
-    #     return {'users':User.objects.all(),'message_left':messages_left_list}
     
     def post(self, request):
         user_search = request.POST['search']

@@ -1,0 +1,37 @@
+{% extends "dating/homepage-base.html" %}
+{% block content %}         
+    {% if user.is_authenticated %}
+        <nav>
+            <a href="{{user.username}}/profile">Profile</a>
+            <a href="{{user.username}}/chat-requests">Check chat requests</a>
+            <a href="{%url 'chat-home'%}">Go to current chats</a>
+
+        </nav>
+        <hr>
+        <article>
+            <hr>
+            <img src="{{ u.profile.image.url }}">
+            <div>
+                <div>
+                    <a href="">{{ u.username }}</a>
+                </div>
+                <p>gender:{{u.profile.gender}}</p>
+                <p>age:{{u.profile.age}}</p>
+                <p>status:{{u.profile.status}}</p>
+                <p>email:{{u.email}}</p>
+                <p>hobbies:{{u.profile.hobbies}}</p>
+                <a href="{%url 'user-report' u.username%}">Report</a>
+            </div>
+            <form method="POST">
+                {%csrf_token%}
+                <fieldset>
+                    <input type="radio" id="html" name="chat_request" value="{{u}}">
+                    <label for="html">Chat Request</label>
+                    <button type="submit">submit</button>
+                </fieldset>
+            </form>
+            <hr>
+        </article>
+    {%endif%}
+{%endblock content%}
+
