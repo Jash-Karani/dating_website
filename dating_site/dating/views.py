@@ -6,6 +6,11 @@ from dating.models import Chatrequests
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from .models import Reports
+from dotenv import load_dotenv
+
+import os
+
+import smtplib
 
 from thefuzz import process, fuzz
 
@@ -36,6 +41,16 @@ class  UsersList(ListView):
         b=Chatrequests.objects.get(user=request.user)
         b.chat_requested=json_file2
         b.save()
+
+        load_dotenv()
+        server=smtplib.SMTP('smtp.gmail.com',587)
+        server.starttls()
+        print(os.getenv('EMAIL_USER'))
+        server.login(os.getenv('EMAIL_USER'), os.getenv('EMAIL_PASS'))
+        msg=f'{request.user.username} has sent you a request to chat. Please go the dating site to accept/reject. Thanks '
+        server.sendmail(os.environ.get('EMAIL_USER'), user_requested.email, msg)
+        server.quit()
+
         return redirect('/')
 
     def get(self, request):
