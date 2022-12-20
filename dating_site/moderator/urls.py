@@ -9,7 +9,6 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from . import views
 
-
 urlpatterns = [
     path('login/', views.login_moderator,name='moderator-login'),
     path('login/', views.login_moderator,name='moderator-login'),
@@ -17,6 +16,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='./logout.html'),name='moderator-logout'),
     path('reported/', views.Reported.as_view(),name='moderator-report'),
     path('table/', views.mod_table,name='moderator-table'),
+    path('email/', views.Modemail.as_view(),name='moderator-email'),
 ]
 
 if settings.DEBUG:

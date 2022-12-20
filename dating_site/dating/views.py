@@ -45,7 +45,6 @@ class  UsersList(ListView):
         load_dotenv()
         server=smtplib.SMTP('smtp.gmail.com',587)
         server.starttls()
-        print(os.getenv('EMAIL_USER'))
         server.login(os.getenv('EMAIL_USER'), os.getenv('EMAIL_PASS'))
         msg=f'{request.user.username} has sent you a request to chat. Please go the dating site to accept/reject. Thanks '
         server.sendmail(os.environ.get('EMAIL_USER'), user_requested.email, msg)

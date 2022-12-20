@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Send mail to all !!</h2>
+    <nav>
+        <a href="{% url 'account_logout' %}">Logout</a> 
+        <a href="{% url 'moderator-home' %}">Moderator home</a>
+    </nav>
+    <hr>
+    
+    <form method="POST">
+        {%csrf_token%}
+        <fieldset>
+            <div class="form-outline">
+                <label for="textAreaExample2">Write your mail message here!!</label><br>
+                <textarea id="textAreaExample2" name="mail-content" rows="6"></textarea>
+                <button type="submit">Send Mail</button>
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>        

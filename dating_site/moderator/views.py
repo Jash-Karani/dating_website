@@ -11,7 +11,9 @@ from users.models import Profile
 from dating.models import Reports
 from .tables import ProfileTable,ReportTable
 from django.contrib.admin.views.decorators import staff_member_required
-
+from dotenv import load_dotenv
+import smtplib
+import os
 # Create your views here.
 
 def login_moderator(request):
@@ -83,3 +85,25 @@ def mod_table(request):
         "table": table,
         "table2": table2,
     })
+
+
+class Modemail(ListView):
+    model=User
+    template_name='./email.html'
+    context_object_name='users'
+    
+    def post(self, request):
+        mail_msg = request.POST['mail-content']
+
+        email_list=[]
+        for u in User.objects.all():
+            email_list.append(u.email)
+    
+        load_dotenv()
+        server=smtplib.SMTP('smtp.gmail.com',587)
+        server.starttls()
+        server.login(os.getenv('EMAIL_USER'), os.getenv('EMAIL_PASS'))
+        server.sendmail(os.environ.get('EMAIL_USER'), email_list, mail_msg)
+        server.quit()
+
+        return redirect('moderator-home')
