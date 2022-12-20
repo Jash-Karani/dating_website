@@ -1,0 +1,17 @@
+
+{% load render_table from django_tables2 %}
+<!doctype html>
+<html>
+    <head>
+        <title>List of persons</title>
+    </head>
+    <body>
+        <h2>Moderator table view</h2>
+        <nav>
+            <a href="{% url 'account_logout' %}">Logout</a> 
+            <a href="{% url 'moderator-home' %}">Moderator home</a>
+        </nav>
+        {% render_table table%}
+        {% render_table table2%}
+    </body>
+</html>

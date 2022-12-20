@@ -7,7 +7,9 @@ from django.contrib.auth import authenticate,login
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from .forms import ModeratorLogin1,ModeratorLogin2
 from django.contrib.auth.models import User
+from users.models import Profile
 from dating.models import Reports
+from .tables import ProfileTable,ReportTable
 from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
@@ -54,19 +56,22 @@ class Reported(ListView):
             obj=get_object_or_404(Reports,report= report_list)
             obj.delete()
         elif mod_decision_list[0] == 'delete_user':
-            # try:
                 print()
                 u = User.objects.get(username = mod_decision_list[3])
                 u.delete()
                 obj=get_object_or_404(Reports,report= report_list)
-                obj.delete()
-                # messages.sucess(request, "The user is deleted")
-            # except:
-                # print('could not be deleted')
-                # messages.error(request, "The user not found")    
+                obj.delete() 
 
         return redirect(request.path_info)
 
     
 
 
+def mod_table(request):
+    table = ProfileTable(Profile.objects.all())
+    table2 = ReportTable(Reports.objects.all())
+
+    return render(request, "./tables.html", {
+        "table": table,
+        "table2": table2,
+    })

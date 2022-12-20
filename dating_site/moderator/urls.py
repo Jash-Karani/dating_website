@@ -16,6 +16,7 @@ urlpatterns = [
     path('home/', views.home,name='moderator-home'),
     path('logout/', auth_views.LogoutView.as_view(template_name='./logout.html'),name='moderator-logout'),
     path('reported/', views.Reported.as_view(),name='moderator-report'),
+    path('table/', views.mod_table,name='moderator-table'),
 ]
 
 if settings.DEBUG:
