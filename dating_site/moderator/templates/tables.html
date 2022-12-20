@@ -11,7 +11,10 @@
             <a href="{% url 'account_logout' %}">Logout</a> 
             <a href="{% url 'moderator-home' %}">Moderator home</a>
         </nav>
-        {% render_table table%}
+        <hr>
+        {%render_table table%}
+        <hr>
         {% render_table table2%}
+        <hr>
     </body>
 </html>

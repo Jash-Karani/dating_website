@@ -7,8 +7,10 @@ class ProfileTable(tables.Table):
         model = Profile
         
 class ReportTable(tables.Table):
-    class Meta:
-        model = Reports
+    report_from = tables.Column()
+    report_against =tables.Column()
+    reason =tables.Column()
+
 
 
 

@@ -69,7 +69,15 @@ class Reported(ListView):
 
 def mod_table(request):
     table = ProfileTable(Profile.objects.all())
-    table2 = ReportTable(Reports.objects.all())
+
+    report_list=[]
+    for r in Reports.objects.all():
+        # r.report(r.report.keys[0])[1]
+        key=(list(r.report.keys())[0])
+        temp_dict={'report_from':r.report[str(key)][0],'report_against':r.report[str(key)][1],'reason':r.report[str(key)][2]}
+        report_list.append(temp_dict)
+
+    table2 = ReportTable(report_list)
 
     return render(request, "./tables.html", {
         "table": table,
