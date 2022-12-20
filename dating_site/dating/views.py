@@ -79,7 +79,7 @@ def profile_check(request,**username):
         b.chat_requested=json_file2
         b.save()
         return redirect('/')
-        
+
     context={
             "u":User.objects.all().filter(username= username['username']).first(),
         }
@@ -91,7 +91,9 @@ def user_report(request,**username):
     user_getting_reported = User.objects.all().get(username=username['username'])
     if request.method=='POST':
         report_reason=request.POST['report']
-        a=Reports(report={request.user.username:[user_getting_reported.username,report_reason]})
+        print(len(Reports.objects.all()))
+        report_id=len(Reports.objects.all())+1
+        a=Reports(report={report_id:[request.user.username,user_getting_reported.username,report_reason]})
         a.save()
         return redirect('dating-home')
     context={

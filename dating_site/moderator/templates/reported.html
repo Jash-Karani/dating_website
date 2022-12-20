@@ -7,11 +7,31 @@
     <title>Document</title>
 </head>
 <body>
+    <nav>
+        <a href="{% url 'account_logout' %}">Logout</a> 
+        <a href="{% url 'moderator-home' %}">Moderator home</a>
+        <a href="{%url 'chat-home'%}">Go to chat home</a>
+    </nav>
+    <h2>User reports</h2>
     <article>
 
         {% for r in reports %}
             {% for key,value in r.report.items %}
-                <p>{{key}} reported {{value[0]}}</p>
+                <hr>
+                <p>User who reported: {{value.0}}</p>
+                <p>User who got reported: {{value.1}}</p>
+                <p>Reason for the report: {{value.2}}</p>
+                
+                
+                <form method="POST">
+                    {%csrf_token%}
+                        <div>
+                            <button type="submit" name="mod-decision" value="ignored {{key}} {{value.0}} {{value.1}} {{value.2}}">Ignore</button>
+                            <button type="submit" name="mod-decision" value="delete_user {{key}} {{value.0}} {{value.1}} {{value.2}}">Delete user: {{value.1}}</button>
+                        </div>
+                </form>
+
+                <hr>
             {% endfor %}
         {% endfor %}
     </article>

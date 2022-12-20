@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'dating.apps.DatingConfig',
     'chats.apps.ChatsConfig',
 
+    'django_tables2',
+
 ]
 
 MIDDLEWARE = [
