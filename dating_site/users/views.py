@@ -75,7 +75,7 @@ class ChatRequestsView(ListView):
             json_file2.append({user_who_decided.username:[]})
             json_file2.append({user_who_requested.username:[]})
             json_file2.append({'chat':[]})
-            json_file2.append({'messages_left':[]})
+            json_file2.append({'messages_left':0})
             b=Chatrequests.objects.all().filter(user=user_who_requested).first()
             b.match=json_file
             b.chats[user_who_decided.username]=json_file2

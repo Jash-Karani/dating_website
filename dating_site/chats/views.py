@@ -45,7 +45,8 @@ def chat_with_user(request,**username_2):
         b.chats[user_1.username][2]['chat']=json_file2
         
         value=user_2.chatrequests.chats[user_1.username][3]['messages_left']
-        value=value+1
+        print((value))
+        value=(value)+1
         b.chats[user_1.username][3]['messages_left']=value
 
         b.save()
