@@ -69,7 +69,6 @@ class  UsersList(ListView):
 
 
 def profile_check(request,**username):
-
     if request.method=='POST':
         user_requested = User.objects.all().filter(username=request.POST['chat_request']).first()
         try:
@@ -114,6 +113,8 @@ def user_report(request,**username):
             "user":User.objects.all().filter(username= username['username']).first(),
         }
     return render(request, 'users/report.html',context)
+
+
 class  Findusers(ListView):
     model=User
     template_name = 'dating/find_users.html'

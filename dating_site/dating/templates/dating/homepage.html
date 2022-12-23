@@ -30,9 +30,7 @@
                         <form method="POST">
                             {%csrf_token%}
                             <fieldset>
-                                <input type="radio" id="html" name="chat_request" value="{{u}}">
-                                <label for="html">Chat Request</label>
-                                <button type="submit">submit</button>
+                                <button type="submit" id="html" name="chat_request" value="{{u}}">Chat Request</button>
                             </fieldset>
                         </form>
                         <hr>
