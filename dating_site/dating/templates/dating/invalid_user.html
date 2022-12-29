@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+        <nav>   
+            <h1>PILANI Dating Site</h1>
+            <h3>That was an invalid email id ... only users with the bits email can use the site</h3>
+        </nav>
+
+        {% load socialaccount %}
+        <a href="{%url 'moderator-login'%}">Moderator login</a>
+        <a href="{% provider_login_url 'google' %}">User login with Google</a>
+
+
+
+</body>
+</html>
+
+
+
+

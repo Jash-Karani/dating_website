@@ -42,16 +42,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites', 
+    
+    'users.apps.UsersConfig',
+    'moderator.apps.ModeratorConfig',
+    'dating.apps.DatingConfig',
+    'chats.apps.ChatsConfig',
 
     'allauth', 
     'allauth.account', 
     'allauth.socialaccount', 
     'allauth.socialaccount.providers.google', #this is for google oauth
 
-    'users.apps.UsersConfig',
-    'moderator.apps.ModeratorConfig',
-    'dating.apps.DatingConfig',
-    'chats.apps.ChatsConfig',
 
     'django_tables2',
 
@@ -155,7 +156,7 @@ LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET= True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_ADAPTER = 'dating.adapters.SocialAccountAdapter'
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
