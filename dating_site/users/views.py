@@ -90,17 +90,4 @@ class ChatRequestsView(ListView):
             a.save()
         
 
-        return redirect('/')
-    # def post(self, request):
-    #     user_requested = request.POST['chat_request']
-        
-    #     try:
-    #         json_file=request.user.chatrequests.chat_request
-    #     except:
-    #         chat_request_var=Chatrequests.objects.create(user=request.user)
-    #         json_file=request.user.chatrequests.chat_request
-    #     json_file.append(user_requested)
-    #     a=Chatrequests.objects.get(user=request.user)
-    #     a.chat_request=json_file
-    #     a.save()
-    #     return redirect('/')
+        return redirect(request.path_info)
