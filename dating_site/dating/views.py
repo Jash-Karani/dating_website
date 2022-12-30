@@ -15,6 +15,9 @@ import smtplib
 
 from thefuzz import process, fuzz
 
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 class  UsersList(ListView):
     model=User
     template_name = 'dating/homepage.html'
@@ -47,8 +50,10 @@ class  UsersList(ListView):
         server=smtplib.SMTP('smtp.gmail.com',587)
         server.starttls()
         server.login(os.getenv('EMAIL_USER'), os.getenv('EMAIL_PASS'))
-        msg=f'{request.user.username} has sent you a request to chat. Please go the dating site to accept/reject. Thanks '
-        server.sendmail(os.environ.get('EMAIL_USER'), user_requested.email, msg)
+        msg = MIMEText(f'{request.user.username} has sent you a request to chat. Please go the dating site to accept/reject. Thanks <a href="http://jashkarani.pythonanywhere.com/chats/">Click to go to dating site</a>','html')
+
+        
+        server.sendmail(os.environ.get('EMAIL_USER'), user_requested.email, msg.as_string())
         server.quit()
 
         return redirect('/')
