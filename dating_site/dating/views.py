@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from .models import Reports
 from dotenv import load_dotenv
+from users.forms import ReportForm
 
 import os
 
@@ -103,14 +104,31 @@ def profile_check(request,**username):
 def user_report(request,**username):
     user_getting_reported = User.objects.all().get(username=username['username'])
     if request.method=='POST':
-        report_reason=request.POST['report']
-        print(len(Reports.objects.all()))
-        report_id=len(Reports.objects.all())+1
-        a=Reports(report={report_id:[request.user.username,user_getting_reported.username,report_reason]})
+        reported_reason=ReportForm(request.POST)
+        if reported_reason.is_valid():
+            report_reason = reported_reason.cleaned_data
+            report_id=len(Reports.objects.all())+1
+            a=Reports(report={report_id:[request.user.username,user_getting_reported.username,report_reason['report_reason']]})
+            a.save()
+            return redirect('dating-home')
+
+    elif request.method=='GET':
+        user_report_list=User.objects.all().get(username=request.user.username).profile.users_reported
+        a=User.objects.all().get(username=request.user.username).profile
+        user_report_list.append(username['username'])
+        print(user_report_list)
+        a.users_reported=user_report_list
         a.save()
-        return redirect('dating-home')
+        form = ReportForm()
+        context={
+            "user":User.objects.all().filter(username= username['username']).first(),
+            "form":form,
+
+        }
+        return render(request, 'users/report.html',context)
     context={
             "user":User.objects.all().filter(username= username['username']).first(),
+            "form":form,
         }
     return render(request, 'users/report.html',context)
 
@@ -130,11 +148,9 @@ class  Findusers(ListView):
 
         users_found=process.extract(user_search, user_list,scorer=fuzz.partial_token_set_ratio)
         filtered_list=[]
-        print(len(users_found))
-        print((users_found)[1][1])
+
         for i in range(len(users_found)):
             if(users_found[i][1]>=75):
-                print(filtered_list)
                 filtered_list.append(users_found[i])
         return render(request, 'dating/find_users.html',{'users_found':filtered_list})
 

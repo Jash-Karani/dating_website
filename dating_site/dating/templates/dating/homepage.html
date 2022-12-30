@@ -12,7 +12,7 @@
         <h3>These are available people whom you can connect with</h3>
         {% for u in users %}
             {% if u.username != user.username %}
-                {% if u.username not in user.chatrequests.chat_requested %}
+                {% if u.username not in user.chatrequests.chat_requested and u.username not in user.profile.users_reported %}
                     <article>
                         <hr>
                         <img src="{{ u.profile.image.url }}">

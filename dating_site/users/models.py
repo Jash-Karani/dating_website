@@ -15,6 +15,7 @@ class Profile(models.Model):
     hobbies=models.CharField(max_length=100,default="")
     age=models.IntegerField(default=18)
     moderator=models.BooleanField(default=False)
+    users_reported=models.JSONField(default=list)
     moderator_password=models.CharField(max_length=100,default="")
     GENDER_CHOICES = [
         ('MALE', 'Male'),

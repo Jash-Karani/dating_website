@@ -8,12 +8,10 @@
 </head>
 <body>
     <h2>Reporting {{user.username}}</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {%csrf_token%}
         <fieldset>
-            <label for="r">Report Reasons</label>
-            <textarea id="r" name="report" rows="5" cols="33"></textarea>
-  
+            {{form}}
         </fieldset>
         <div>
             <button type="submit">report</button>
