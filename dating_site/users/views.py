@@ -5,7 +5,7 @@ from .models import Profile
 from django.contrib.auth.models import User
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.shortcuts import render,redirect
-from dating.models import Chatrequests,Chats
+from dating.models import Chatrequests,UserChat,CurrentChats
 # Create your views here.
 
 @login_required
@@ -55,8 +55,6 @@ class ChatRequestsView(ListView):
             user_who_decided.chatrequests.chats[user_who_requested.username]=[]
             
             json_file2=user_who_decided.chatrequests.chats[user_who_requested.username]
-            json_file2.append({user_who_requested.username:[]})
-            json_file2.append({user_who_decided.username:[]})
             json_file2.append({'chat':[]})
             json_file2.append({'messages_left':0})
             a=Chatrequests.objects.all().filter(user=user_who_decided).first()
@@ -64,7 +62,7 @@ class ChatRequestsView(ListView):
             a.chats[user_who_requested.username]=json_file2
             a.save()
             
-            Chats.objects.create(current_chats={user_who_decided.username:user_who_requested.username})
+            CurrentChats.objects.create(current_chats={user_who_decided.username:user_who_requested.username})
             
             json_file=user_who_requested.chatrequests.match
             json_file.append(user_who_decided.username)
@@ -72,8 +70,6 @@ class ChatRequestsView(ListView):
             user_who_requested.chatrequests.chats[user_who_decided.username]=[]
    
             json_file2=user_who_requested.chatrequests.chats[user_who_decided.username]
-            json_file2.append({user_who_decided.username:[]})
-            json_file2.append({user_who_requested.username:[]})
             json_file2.append({'chat':[]})
             json_file2.append({'messages_left':0})
             b=Chatrequests.objects.all().filter(user=user_who_requested).first()
