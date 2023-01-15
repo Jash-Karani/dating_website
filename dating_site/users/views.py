@@ -5,7 +5,7 @@ from .models import Profile
 from django.contrib.auth.models import User
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.shortcuts import render,redirect
-from dating.models import Chatrequests,UserChat,CurrentChats
+from dating.models import Chatrequests,Userchat
 # Create your views here.
 
 @login_required
@@ -49,34 +49,41 @@ class ChatRequestsView(ListView):
         user_who_requested=User.objects.all().filter(username=user_decision[:-6]).first()
         user_who_decided=User.objects.all().filter(username=request.user.username).first()
         if 'accept' in user_decision: 
+            
             json_file=user_who_decided.chatrequests.match
             json_file.append(user_who_requested.username)
-            
-            user_who_decided.chatrequests.chats[user_who_requested.username]=[]
-            
-            json_file2=user_who_decided.chatrequests.chats[user_who_requested.username]
-            json_file2.append({'chat':[]})
-            json_file2.append({'messages_left':0})
+            json_filea=user_who_decided.chatrequests.chat_request
+            json_filea.remove(user_who_requested.username)
             a=Chatrequests.objects.all().filter(user=user_who_decided).first()
             a.match=json_file
-            a.chats[user_who_requested.username]=json_file2
+            a.chat_request=json_filea
             a.save()
             
-            CurrentChats.objects.create(current_chats={user_who_decided.username:user_who_requested.username})
+            userchat_fetched , fetching_boolean= Userchat.objects.get_or_create(user=user_who_decided)
+            if fetching_boolean:
+                userchat_fetched.chat[user_who_requested.username]=[]
+                json_user_who_decided=userchat_fetched.chat[user_who_requested.username]
+                json_user_who_decided.append({'chat':[]})
+                json_user_who_decided.append({'messages_left':0})
+                userchat_fetched.save()
+                
             
             json_file=user_who_requested.chatrequests.match
             json_file.append(user_who_decided.username)
-            
-            user_who_requested.chatrequests.chats[user_who_decided.username]=[]
-   
-            json_file2=user_who_requested.chatrequests.chats[user_who_decided.username]
-            json_file2.append({'chat':[]})
-            json_file2.append({'messages_left':0})
+            json_fileb=user_who_requested.chatrequests.chat_requested
+            json_fileb.remove(user_who_decided.username)
             b=Chatrequests.objects.all().filter(user=user_who_requested).first()
             b.match=json_file
-            b.chats[user_who_decided.username]=json_file2
+            b.chat_requested=json_fileb
             b.save()
 
+            userchat_fetched , fetching_boolean= Userchat.objects.get_or_create(user=user_who_requested)
+            if fetching_boolean:
+                userchat_fetched.chat[user_who_decided.username]=[]
+                json_user_who_requested=userchat_fetched.chat[user_who_decided.username]
+                json_user_who_requested.append({'chat':[]})
+                json_user_who_requested.append({'messages_left':0})
+                userchat_fetched.save()
         
         elif 'reject' in user_decision: 
             json_file=user_who_decided.chatrequests.ban
@@ -84,6 +91,5 @@ class ChatRequestsView(ListView):
             a=Chatrequests.objects.all().filter(user=user_who_decided).first()
             a.ban=json_file
             a.save()
-        
 
         return redirect(request.path_info)
