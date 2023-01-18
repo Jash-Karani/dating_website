@@ -178,3 +178,4 @@ REST_FRAMEWORK = {
     ],
     'PAGE_SIZE': 10
 }
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"

@@ -17,6 +17,8 @@ urlpatterns = [
     path('reported/', views.Reported.as_view(),name='moderator-report'),
     path('table/', views.mod_table,name='moderator-table'),
     path('email/', views.Modemail.as_view(),name='moderator-email'),
+    path('ignore/<report_id>', views.report_ignore,name='user-ignore'), 
+    path('user_delete/<report_id>', views.user_delete,name='user-delete'), 
 ]
 
 if settings.DEBUG:

@@ -108,11 +108,16 @@ def profile_check(request,**username):
 
 def user_report(request,**username):
     user_getting_reported = User.objects.all().get(username=username['username'])
+
     if request.method=='POST':
         reported_reason=ReportForm(request.POST)
         if reported_reason.is_valid():
+
             report_reason = reported_reason.cleaned_data
-            report_id=len(Reports.objects.all())+1
+            if len(Reports.objects.all())==0:
+                report_id=1
+            else:
+                report_id=int(list(Reports.objects.all().last().report.keys())[0])+1
             a=Reports(report={report_id:[request.user.username,user_getting_reported.username,report_reason['report_reason']]})
             a.save()
             return redirect('dating-home')
@@ -121,16 +126,15 @@ def user_report(request,**username):
         user_report_list=User.objects.all().get(username=request.user.username).profile.users_reported
         a=User.objects.all().get(username=request.user.username).profile
         user_report_list.append(username['username'])
-        print(user_report_list)
         a.users_reported=user_report_list
         a.save()
         form = ReportForm()
         context={
             "user":User.objects.all().filter(username= username['username']).first(),
             "form":form,
-
         }
         return render(request, 'users/report.html',context)
+    form = ReportForm()
     context={
             "user":User.objects.all().filter(username= username['username']).first(),
             "form":form,
