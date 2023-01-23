@@ -32,22 +32,6 @@ def chat_with_user(request,**username_2):
 
     if request.method=='POST':
         message=request.POST['message']
-        # a=Chatrequests.objects.get(user=user_1)
-        # json_file=user_1.chatrequests.chats[user_2.username][0]['chat']
-        # json_file.append([user_1.username,message])
-        # a.chats[user_2.username][0]['chat']=json_file
-        # a.save()
-
-        # b=Chatrequests.objects.get(user=user_2)
-        # json_file2=user_2.chatrequests.chats[user_1.username][0]['chat']
-        # json_file2.append([user_1.username,message])
-        # b.chats[user_1.username][0]['chat']=json_file2
-        
-        # value=user_2.chatrequests.chats[user_1.username][1]['messages_left']
-        # value=(value)+1
-        # b.chats[user_1.username][1]['messages_left']=value
-
-        # b.save()
  
         userchat_object_fetched_1=Userchat.objects.get(user=user_1)
         json_file=userchat_object_fetched_1.chat[user_2.username][0]['chat']

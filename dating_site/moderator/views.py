@@ -73,23 +73,28 @@ def mod_table(request):
 
     report_list=[]
     for r in Reports.objects.all():
-        # r.report(r.report.keys[0])[1]
         key=(list(r.report.keys())[0])
-        temp_dict={'report_id':key,'report_from':r.report[str(key)][0],'report_against':r.report[str(key)][1],'reason':r.report[str(key)][2]}
+
+        try:
+            user_reported=User.objects.all().get(username=r.report[str(key)][1])
+            check=True
+        except:
+            check=False
+        temp_dict={'report_id':key,'report_from':r.report[str(key)][0],'report_against':r.report[str(key)][1],'reason':r.report[str(key)][2],'user_exists':check}
         report_list.append(temp_dict)
 
     table2 = ReportTable(report_list)
 
-    return render(request, "./tables.html", {
+    return render(request, "moderator/tables.html", {
         "table": table,
         "table2": table2,
     })
 def user_delete(request,report_id):
-    print('hmmm')
+
     for r in Reports.objects.all():
         print(r.report,report_id)
         if report_id in r.report:
-            print('hmmm2')
+
             user_fetched=User.objects.all().get(username=r.report[str(report_id)][1])
             print(user_fetched)
             user_fetched.delete()

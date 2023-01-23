@@ -12,9 +12,9 @@ class ReportTable(tables.Table):
     report_from = tables.Column()
     report_against =tables.Column()
     reason =tables.Column()
-    ignore = tables.TemplateColumn(template_name='./ignore.html')
-    delete_user = tables.TemplateColumn(template_name='./delete_user.html')
-
+    ignore = tables.TemplateColumn(template_name='moderator/ignore.html')
+    delete_user = tables.TemplateColumn(template_name='moderator/delete_user.html')
+    user_exists = tables.TemplateColumn(template_name='moderator/user_exist_check.html')
 
 
     class Meta:         
